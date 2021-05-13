@@ -239,24 +239,18 @@ public class ParticleManager extends Manager implements Listener, Runnable {
 
             if (particle.getStyle().canToggleWithMovement() && pplayer.isMoving()) {
                 switch (Setting.TOGGLE_ON_MOVE.getString().toUpperCase()) {
-                    case "DISPLAY_FEET":
-                    case "TRUE": // Old default value, keep here for legacy config compatibility
+                    case "DISPLAY_FEET", "TRUE" -> { // TRUE keps for legacy compatibility
                         for (PParticle pparticle : DefaultStyles.FEET.getParticles(particle, location))
                             ParticleEffect.display(particle, pparticle, particle.getStyle().hasLongRangeVisibility(), pplayer.getPlayer());
-                        return;
-                    case "DISPLAY_NORMAL":
+                    }
+                    case "DISPLAY_NORMAL" -> {
                         for (PParticle pparticle : DefaultStyles.NORMAL.getParticles(particle, location))
                             ParticleEffect.display(particle, pparticle, particle.getStyle().hasLongRangeVisibility(), pplayer.getPlayer());
-                        return;
-                    case "DISPLAY_OVERHEAD":
+                    }
+                    case "DISPLAY_OVERHEAD" -> {
                         for (PParticle pparticle : DefaultStyles.OVERHEAD.getParticles(particle, location))
                             ParticleEffect.display(particle, pparticle, particle.getStyle().hasLongRangeVisibility(), pplayer.getPlayer());
-                        return;
-                    case "NONE":
-                    case "FALSE": // Old default value, keep here for legacy config compatibility
-                        break;
-                    default:
-                        return;
+                    }
                 }
             }
 

@@ -72,16 +72,13 @@ public class PlayerChatHook extends BukkitRunnable implements Listener {
 
                 if (NMSUtil.getVersionNumber() >= 11) {
                     switch (Setting.GUI_GROUP_CREATION_MESSAGE_DISPLAY_AREA.getString().toUpperCase()) {
-                        case "ACTION_BAR":
-                            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(localeManager.getLocaleMessage("gui-save-group-hotbar-message", StringPlaceholders.single("seconds", hook.getTimeRemaining()))));
-                            break;
-                        case "TITLE":
-                            player.sendTitle("", message, 5, 40, 10);
-                            break;
-                        default:
+                        case "ACTION_BAR" ->
+                                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(localeManager.getLocaleMessage("gui-save-group-hotbar-message", StringPlaceholders.single("seconds", hook.getTimeRemaining()))));
+                        case "TITLE" -> player.sendTitle("", message, 5, 40, 10);
+                        default -> {
                             if (hook.getMaxHookLength() == hook.getTimeRemaining())
                                 player.sendMessage(message);
-                            break;
+                        }
                     }
                 } else {
                     if (hook.getMaxHookLength() == hook.getTimeRemaining())

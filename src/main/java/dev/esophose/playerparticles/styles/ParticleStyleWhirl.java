@@ -42,32 +42,15 @@ public class ParticleStyleWhirl extends DefaultParticleStyle {
     }
 
     private double getSpeedByEffect(ParticleEffect effect) {
-        switch (effect) {
-            case CRIT:
-            case DAMAGE_INDICATOR:
-            case ENCHANTED_HIT:
-                return 1;
-            case DRAGON_BREATH:
-                return 0.01;
-            case ENCHANT:
-            case NAUTILUS:
-            case PORTAL:
-                return 1;
-            case END_ROD:
-            case SMOKE:
-            case SQUID_INK:
-                return 0.15;
-            case FIREWORK:
-            case SPIT:
-            case SPLASH:
-                return 0.25;
-            case POOF:
-                return 0.2;
-            case TOTEM_OF_UNDYING:
-                return 0.75;
-            default:
-                return 0.1; // Flame
-        }
+        return switch (effect) {
+            case CRIT, DAMAGE_INDICATOR, ENCHANTED_HIT, ENCHANT, NAUTILUS, PORTAL -> 1;
+            case DRAGON_BREATH -> 0.01;
+            case END_ROD, SMOKE, SQUID_INK -> 0.15;
+            case FIREWORK, SPIT, SPLASH -> 0.25;
+            case POOF -> 0.2;
+            case TOTEM_OF_UNDYING -> 0.75;
+            default -> 0.1; // Flame
+        };
     }
 
     @Override

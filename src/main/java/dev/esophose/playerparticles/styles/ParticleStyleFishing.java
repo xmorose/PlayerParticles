@@ -74,20 +74,12 @@ public class ParticleStyleFishing extends DefaultParticleStyle implements Listen
     @EventHandler
     public void onPlayerFish(PlayerFishEvent event) {
         // Done through a string switch for 1.9.4 compatibility
-        switch (event.getState().toString()) {
-            case "FISHING":
-                try {
-                    this.projectiles.add((Projectile) PlayerFishEvent_getHook.invoke(event));
-                } catch (ReflectiveOperationException ignored) { }
-                break;
-            case "CAUGHT_FISH":
-            case "CAUGHT_ENTITY":
-            case "REEL_IN":
-                try {
-                    this.projectiles.remove((Projectile) PlayerFishEvent_getHook.invoke(event));
-                } catch (ReflectiveOperationException ignored) { }
-                break;
-        }
+        try {
+            switch (event.getState().toString()) {
+                case "FISHING" -> this.projectiles.add((Projectile) PlayerFishEvent_getHook.invoke(event));
+                case "CAUGHT_FISH", "CAUGHT_ENTITY", "REEL_IN" -> this.projectiles.remove((Projectile) PlayerFishEvent_getHook.invoke(event));
+            }
+        } catch (ReflectiveOperationException ignored) { }
     }
 
     @Override

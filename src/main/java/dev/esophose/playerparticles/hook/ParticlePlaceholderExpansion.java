@@ -25,23 +25,6 @@ public class ParticlePlaceholderExpansion extends PlaceholderExpansion {
         if (pplayer == null)
             return null;
 
-        switch (placeholder) {
-            case "active_amount":
-                return String.valueOf(pplayer.getActiveParticles().size());
-            case "group_amount":
-                return String.valueOf(pplayer.getParticleGroups().size() - 1);
-            case "fixed_amount":
-                return String.valueOf(pplayer.getFixedParticles().size());
-            case "is_moving":
-                return String.valueOf(pplayer.isMoving());
-            case "is_in_combat":
-                return String.valueOf(pplayer.isInCombat());
-            case "is_in_allowed_region":
-                return String.valueOf(pplayer.isInAllowedRegion());
-            case "can_see_particles":
-                return String.valueOf(pplayer.canSeeParticles());
-        }
-
         if (placeholder.startsWith("particle_")) {
             ParticlePair particle = pplayer.getActiveParticle(this.parseId(placeholder));
             if (particle == null)
@@ -56,7 +39,16 @@ public class ParticlePlaceholderExpansion extends PlaceholderExpansion {
             }
         }
 
-        return null;
+        return String.valueOf(switch (placeholder.toLowerCase()) {
+            case "active_amount" -> pplayer.getActiveParticles().size();
+            case "group_amount" -> pplayer.getParticleGroups().size() - 1;
+            case "fixed_amount" -> pplayer.getFixedParticles().size();
+            case "is_moving" -> pplayer.isMoving();
+            case "is_in_combat" -> pplayer.isInCombat();
+            case "is_in_allowed_region" -> pplayer.isInAllowedRegion();
+            case "can_see_particles" -> pplayer.canSeeParticles();
+            default -> null;
+        });
     }
 
     private int parseId(String placeholder) {

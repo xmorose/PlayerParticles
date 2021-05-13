@@ -40,7 +40,7 @@ public class UseCommandModule implements CommandModule {
 
         String type = args[0].toLowerCase();
         switch (type) {
-            case "effect": {
+            case "effect" -> {
                 ParticleEffect effect = inputParser.next(ParticleEffect.class);
                 if (effect == null) {
                     localeManager.sendMessage(pplayer, "effect-invalid", StringPlaceholders.single("effect", args[1]));
@@ -51,9 +51,8 @@ public class UseCommandModule implements CommandModule {
                 }
 
                 primaryParticle.setEffect(effect);
-                break;
             }
-            case "style": {
+            case "style" -> {
                 ParticleStyle style = inputParser.next(ParticleStyle.class);
                 if (style == null) {
                     localeManager.sendMessage(pplayer, "style-invalid", StringPlaceholders.single("style", args[1]));
@@ -64,9 +63,8 @@ public class UseCommandModule implements CommandModule {
                 }
 
                 primaryParticle.setStyle(style);
-                break;
             }
-            case "data": {
+            case "data" -> {
                 ParticleEffect effect = primaryParticle.getEffect();
                 if (effect.hasProperty(ParticleProperty.COLORABLE)) {
                     if (effect == ParticleEffect.NOTE) {
@@ -101,11 +99,11 @@ public class UseCommandModule implements CommandModule {
                         primaryParticle.setItemMaterial(itemData);
                     }
                 }
-                break;
             }
-            default:
+            default -> {
                 CommandModule.printUsage(pplayer, this);
                 return;
+            }
         }
 
         // Overwrite primary particle
@@ -132,15 +130,15 @@ public class UseCommandModule implements CommandModule {
             possibleValues.addAll(Arrays.asList("effect", "style", "data"));
         } else {
             switch (args[0].toLowerCase()) {
-                case "effect":
+                case "effect" -> {
                     if (args.length == 2)
                         possibleValues.addAll(permissionManager.getEffectNamesUserHasPermissionFor(pplayer));
-                    break;
-                case "style":
+                }
+                case "style" -> {
                     if (args.length == 2)
                         possibleValues.addAll(permissionManager.getStyleNamesUserHasPermissionFor(pplayer));
-                    break;
-                case "data":
+                }
+                case "data" -> {
                     ParticleEffect effect = pplayer.getPrimaryParticle().getEffect();
                     if (effect.hasProperty(ParticleProperty.COLORABLE)) {
                         if (effect == ParticleEffect.NOTE) { // Note data
@@ -167,7 +165,7 @@ public class UseCommandModule implements CommandModule {
                             possibleValues.addAll(ParticleUtils.ITEM_MATERIALS_STRING);
                         }
                     }
-                    break;
+                }
             }
         }
 

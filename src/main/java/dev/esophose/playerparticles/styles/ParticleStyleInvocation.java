@@ -65,32 +65,16 @@ public class ParticleStyleInvocation extends DefaultParticleStyle {
     }
 
     private double getSpeedByEffect(ParticleEffect effect) {
-        switch (effect) {
-            case CRIT:
-            case DAMAGE_INDICATOR:
-            case ENCHANTED_HIT:
-                return 2;
-            case DRAGON_BREATH:
-                return 0.01;
-            case ENCHANT:
-            case NAUTILUS:
-            case PORTAL:
-                return 7;
-            case END_ROD:
-            case SMOKE:
-            case SQUID_INK:
-                return 0.3;
-            case FIREWORK:
-            case SPIT:
-            case SPLASH:
-                return 0.5;
-            case POOF:
-                return 0.4;
-            case TOTEM_OF_UNDYING:
-                return 1.25;
-            default:
-                return 0.2; // Flame
-        }
+        return switch (effect) {
+            case CRIT, DAMAGE_INDICATOR, ENCHANTED_HIT -> 2;
+            case DRAGON_BREATH -> 0.01;
+            case ENCHANT, NAUTILUS, PORTAL -> 7;
+            case END_ROD, SMOKE, SQUID_INK -> 0.3;
+            case FIREWORK, SPIT, SPLASH -> 0.5;
+            case POOF -> 0.4;
+            case TOTEM_OF_UNDYING -> 1.25;
+            default -> 0.2; // Flame
+        };
     }
 
     public void updateTimers() {

@@ -51,33 +51,20 @@ public class FixedCommandModule implements CommandModule {
         System.arraycopy(args, 1, cmdArgs, 0, args.length - 1);
 
         switch (cmd.toLowerCase()) {
-            case "create":
-                this.handleCreate(pplayer, cmdArgs);
-                return;
-            case "edit":
-                this.handleEdit(pplayer, cmdArgs);
-                return;
-            case "remove":
-                this.handleRemove(pplayer, cmdArgs);
-                return;
-            case "list":
-                this.handleList(pplayer, cmdArgs);
-                return;
-            case "info":
-                this.handleInfo(pplayer, cmdArgs);
-                return;
-            case "clear":
-                this.handleClear(pplayer, cmdArgs);
-                return;
-            case "teleport":
+            case "create" -> this.handleCreate(pplayer, cmdArgs);
+            case "edit" -> this.handleEdit(pplayer, cmdArgs);
+            case "remove" -> this.handleRemove(pplayer, cmdArgs);
+            case "list" -> this.handleList(pplayer, cmdArgs);
+            case "info" -> this.handleInfo(pplayer, cmdArgs);
+            case "clear" -> this.handleClear(pplayer, cmdArgs);
+            case "teleport" -> {
                 if (pplayer.getPlayer() != null) {
                     this.handleTeleport(pplayer, cmdArgs);
                 } else {
                     pplayer.getUnderlyingExecutor().sendMessage(ChatColor.RED + "Error: This command can only be executed by a player.");
                 }
-                return;
-            default:
-                this.sendCommandsList(pplayer);
+            }
+            default -> this.sendCommandsList(pplayer);
         }
     }
 
@@ -264,7 +251,7 @@ public class FixedCommandModule implements CommandModule {
 
         String editType = inputParser.next(String.class);
         switch (editType) {
-            case "location":
+            case "location" -> {
                 Location location = inputParser.next(Location.class);
                 if (location == null) {
                     if (args[2].equalsIgnoreCase("looking")) {
@@ -274,7 +261,6 @@ public class FixedCommandModule implements CommandModule {
                     }
                     return;
                 }
-
                 if (player != null) {
                     double distanceFromEffect = player.getLocation().distance(location);
                     int maxCreationDistance = permissionManager.getMaxFixedEffectCreationDistance();
@@ -283,10 +269,9 @@ public class FixedCommandModule implements CommandModule {
                         return;
                     }
                 }
-
                 fixedEffect.setCoordinates(location.getX(), location.getY(), location.getZ());
-                break;
-            case "effect": {
+            }
+            case "effect" -> {
                 ParticleEffect effect = inputParser.next(ParticleEffect.class);
                 if (effect == null) {
                     localeManager.sendMessage(pplayer, "fixed-edit-effect-invalid", StringPlaceholders.single("effect", args[2]));
@@ -297,9 +282,8 @@ public class FixedCommandModule implements CommandModule {
                 }
 
                 fixedEffect.getParticlePair().setEffect(effect);
-                break;
             }
-            case "style":
+            case "style" -> {
                 ParticleStyle style = inputParser.next(ParticleStyle.class);
                 if (style == null) {
                     localeManager.sendMessage(pplayer, "fixed-edit-style-invalid", StringPlaceholders.single("style", args[2]));
@@ -311,10 +295,9 @@ public class FixedCommandModule implements CommandModule {
                     localeManager.sendMessage(pplayer, "fixed-edit-style-non-fixable", StringPlaceholders.single("style", style.getName()));
                     return;
                 }
-
                 fixedEffect.getParticlePair().setStyle(style);
-                break;
-            case "data": {
+            }
+            case "data" -> {
                 Material itemData = null;
                 Material blockData = null;
                 OrdinaryColor colorData = null;
@@ -358,11 +341,11 @@ public class FixedCommandModule implements CommandModule {
                 fixedEffect.getParticlePair().setNoteColor(noteColorData);
                 fixedEffect.getParticlePair().setItemMaterial(itemData);
                 fixedEffect.getParticlePair().setBlockMaterial(blockData);
-                break;
             }
-            default:
+            default -> {
                 localeManager.sendMessage(pplayer, "fixed-edit-invalid-property");
                 return;
+            }
         }
 
         PlayerParticlesAPI.getInstance().editFixedParticleEffect(player == null ? Bukkit.getConsoleSender() : player, fixedEffect);
@@ -574,7 +557,7 @@ public class FixedCommandModule implements CommandModule {
             else StringUtil.copyPartialMatches(args[0], possibleCmds, matches);
         } else {
             switch (args[0].toLowerCase()) {
-                case "create":
+                case "create" -> {
                     if (args.length <= 4 || (isConsole && args.length <= 5)) {
                         List<String> possibleValues = new ArrayList<>();
                         if (args.length == 5) { // console only
@@ -656,12 +639,12 @@ public class FixedCommandModule implements CommandModule {
                             }
                         }
                     }
-                    break;
-                case "edit":
+                }
+                case "edit" -> {
                     if (args.length == 2) {
                         StringUtil.copyPartialMatches(args[1], pplayer.getFixedEffectIds().stream().map(String::valueOf).collect(Collectors.toList()), matches);
                     } else if (args.length == 3) {
-                        String[] validProperties = new String[] { "location", "effect", "style", "data" };
+                        String[] validProperties = new String[]{"location", "effect", "style", "data"};
                         StringUtil.copyPartialMatches(args[2], Arrays.asList(validProperties), matches);
                     } else {
                         String property = args[2].toLowerCase();
@@ -701,7 +684,8 @@ public class FixedCommandModule implements CommandModule {
                             int id = -1;
                             try {
                                 id = Integer.parseInt(args[1]);
-                            } catch (Exception e) { }
+                            } catch (Exception e) {
+                            }
 
                             FixedParticleEffect fixedEffect = pplayer.getFixedEffectById(id);
                             if (fixedEffect != null) {
@@ -736,38 +720,25 @@ public class FixedCommandModule implements CommandModule {
                             }
                         }
                     }
-                    break;
-                case "remove":
-                case "info":
-                    StringUtil.copyPartialMatches(args[1], pplayer.getFixedEffectIds().stream().map(String::valueOf).collect(Collectors.toList()), matches);
-                    break;
-                case "teleport":
+                }
+                case "remove", "info" -> StringUtil.copyPartialMatches(args[1], pplayer.getFixedEffectIds().stream().map(String::valueOf).collect(Collectors.toList()), matches);
+                case "teleport" -> {
                     if (!isConsole)
                         StringUtil.copyPartialMatches(args[1], pplayer.getFixedEffectIds().stream().map(String::valueOf).collect(Collectors.toList()), matches);
-                    break;
-                case "clear":
+                }
+                case "clear" -> {
                     if (isConsole) {
-                        if (args.length == 6) {
-                            matches.add("<world>");
-                        }
-                        if (args.length == 5) {
-                            matches.add("<z> <world>");
-                        }
-                        if (args.length == 4) {
-                            matches.add("<y> <z> <world>");
-                        }
-                        if (args.length == 3) {
-                            matches.add("<x> <y> <z> <world>");
-                        }
-                        if (args.length == 2) {
-                            matches.add("<radius> <x> <y> <z> <world>");
+                        switch (args.length) {
+                            case 6 -> matches.add("<world>");
+                            case 5 -> matches.add("<z> <world>");
+                            case 4 -> matches.add("<y> <z> <world>");
+                            case 3 -> matches.add("<x> <y> <z> <world>");
+                            case 2 -> matches.add("<radius> <x> <y> <z> <world>");
                         }
                     } else {
                         matches.add("<radius>");
                     }
-                    break;
-                case "list":
-                    break;
+                }
             }
         }
 

@@ -40,28 +40,18 @@ public class GroupCommandModule implements CommandModule {
         }
 
         switch (args[0].toLowerCase()) {
-        case "save":
-            this.onSave(pplayer, args[1].toLowerCase());
-            break;
-        case "load":
-            this.onLoad(pplayer, args[1].toLowerCase());
-            break;
-        case "remove":
-            this.onRemove(pplayer, args[1].toLowerCase());
-            break;
-        case "info":
-            this.onInfo(pplayer, args[1].toLowerCase());
-            break;
-        case "list":
-            this.onList(pplayer);
-            break;
-        default:
-            localeManager.sendMessage(pplayer, "command-description-group-save");
-            localeManager.sendMessage(pplayer, "command-description-group-load");
-            localeManager.sendMessage(pplayer, "command-description-group-remove");
-            localeManager.sendMessage(pplayer, "command-description-group-info");
-            localeManager.sendMessage(pplayer, "command-description-group-list");
-            break;
+            case "save" -> this.onSave(pplayer, args[1].toLowerCase());
+            case "load" -> this.onLoad(pplayer, args[1].toLowerCase());
+            case "remove" -> this.onRemove(pplayer, args[1].toLowerCase());
+            case "info" -> this.onInfo(pplayer, args[1].toLowerCase());
+            case "list" -> this.onList(pplayer);
+            default -> {
+                localeManager.sendMessage(pplayer, "command-description-group-save");
+                localeManager.sendMessage(pplayer, "command-description-group-load");
+                localeManager.sendMessage(pplayer, "command-description-group-remove");
+                localeManager.sendMessage(pplayer, "command-description-group-info");
+                localeManager.sendMessage(pplayer, "command-description-group-list");
+            }
         }
     }
     

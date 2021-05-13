@@ -39,39 +39,31 @@ public class EditCommandModule implements CommandModule {
             localeManager.sendMessage(pplayer, "id-invalid");
             return;
         }
-        
+
         if (id <= 0) {
             localeManager.sendMessage(pplayer, "id-invalid");
             return;
         }
-        
+
         if (pplayer.getActiveParticle(id) == null) {
             localeManager.sendMessage(pplayer, "id-unknown", StringPlaceholders.single("id", id));
             return;
         }
-        
+
         String[] cmdArgs = new String[args.length - 2];
         System.arraycopy(args, 2, cmdArgs, 0, args.length - 2);
-        
+
         switch (args[1].toLowerCase()) {
-        case "effect":
-            this.editEffect(pplayer, id, cmdArgs);
-            break;
-        case "style":
-            this.editStyle(pplayer, id, cmdArgs);
-            break;
-        case "data":
-            this.editData(pplayer, id, cmdArgs);
-            break;
-        default:
-            localeManager.sendMessage(pplayer, "edit-invalid-property", StringPlaceholders.single("prop", args[1]));
-            break;
+            case "effect" -> this.editEffect(pplayer, id, cmdArgs);
+            case "style" -> this.editStyle(pplayer, id, cmdArgs);
+            case "data" -> this.editData(pplayer, id, cmdArgs);
+            default -> localeManager.sendMessage(pplayer, "edit-invalid-property", StringPlaceholders.single("prop", args[1]));
         }
     }
-    
+
     /**
      * Executes the effect subcommand
-     * 
+     *
      * @param pplayer The PPlayer executing the command
      * @param id The target particle ID
      * @param args The rest of the args
@@ -88,7 +80,7 @@ public class EditCommandModule implements CommandModule {
             localeManager.sendMessage(pplayer, "effect-no-permission", StringPlaceholders.single("effect", effect.getName()));
             return;
         }
-        
+
         ParticleGroup group = pplayer.getActiveParticleGroup();
         for (ParticlePair particle : group.getParticles().values()) {
             if (particle.getId() == id) {
@@ -96,14 +88,14 @@ public class EditCommandModule implements CommandModule {
                 break;
             }
         }
-        
+
         PlayerParticlesAPI.getInstance().savePlayerParticleGroup(pplayer.getPlayer(), group);
         localeManager.sendMessage(pplayer, "edit-success-effect", StringPlaceholders.builder("id", id).addPlaceholder("effect", effect.getName()).build());
     }
-    
+
     /**
      * Executes the style subcommand
-     * 
+     *
      * @param pplayer The PPlayer executing the command
      * @param id The target particle ID
      * @param args The rest of the args
@@ -120,7 +112,7 @@ public class EditCommandModule implements CommandModule {
             localeManager.sendMessage(pplayer, "style-no-permission", StringPlaceholders.single("style", style.getName()));
             return;
         }
-        
+
         ParticleGroup group = pplayer.getActiveParticleGroup();
         for (ParticlePair particle : group.getParticles().values()) {
             if (particle.getId() == id) {
@@ -132,10 +124,10 @@ public class EditCommandModule implements CommandModule {
         PlayerParticlesAPI.getInstance().savePlayerParticleGroup(pplayer.getPlayer(), group);
         localeManager.sendMessage(pplayer, "edit-success-style", StringPlaceholders.builder("id", id).addPlaceholder("style", style.getName()).build());
     }
-    
+
     /**
      * Executes the data subcommand
-     * 
+     *
      * @param pplayer The PPlayer executing the command
      * @param id The target particle ID
      * @param args The rest of the args
@@ -180,7 +172,7 @@ public class EditCommandModule implements CommandModule {
                 }
             }
         }
-        
+
         String updatedDataString = null;
         ParticleGroup group = pplayer.getActiveParticleGroup();
         for (ParticlePair particle : group.getParticles().values()) {
@@ -203,21 +195,21 @@ public class EditCommandModule implements CommandModule {
         PermissionManager permissionManager = PlayerParticles.getInstance().getManager(PermissionManager.class);
         List<String> matches = new ArrayList<>();
         List<String> ids = new ArrayList<>();
-        
+
         for (ParticlePair particles : pplayer.getActiveParticles())
             ids.add(String.valueOf(particles.getId()));
-        
+
         if (args.length == 0) {
-            matches = ids;  
+            matches = ids;
         } else if (args.length == 1) {
             StringUtil.copyPartialMatches(args[0], ids, matches);
         }
-        
+
         int id = -1;
         try {
             id = Integer.parseInt(args[0]);
         } catch (Exception ignored) { }
-        
+
         if (pplayer.getActiveParticle(id) != null) {
             if (args.length == 2) {
                 List<String> possibleValues = new ArrayList<>();
@@ -227,48 +219,48 @@ public class EditCommandModule implements CommandModule {
                 StringUtil.copyPartialMatches(args[1], possibleValues, matches);
             } else if (args.length >= 3) {
                 switch (args[1].toLowerCase()) {
-                case "effect":
-                    if (args.length == 3)
-                        StringUtil.copyPartialMatches(args[2], permissionManager.getEffectNamesUserHasPermissionFor(pplayer), matches);
-                    break;
-                case "style":
-                    if (args.length == 3)
-                        StringUtil.copyPartialMatches(args[2], permissionManager.getStyleNamesUserHasPermissionFor(pplayer), matches);
-                    break;
-                case "data":
-                    ParticleEffect effect = pplayer.getActiveParticle(id).getEffect();
-                    if (effect.hasProperty(ParticleProperty.COLORABLE)) {
-                        List<String> possibleValues = new ArrayList<>();
-                        if (effect == ParticleEffect.NOTE) { // Note data
-                            if (args.length == 3) {
-                                possibleValues.add("<0-24>");
-                                possibleValues.add("rainbow");
-                                possibleValues.add("random");
+                    case "effect" -> {
+                        if (args.length == 3)
+                            StringUtil.copyPartialMatches(args[2], permissionManager.getEffectNamesUserHasPermissionFor(pplayer), matches);
+                    }
+                    case "style" -> {
+                        if (args.length == 3)
+                            StringUtil.copyPartialMatches(args[2], permissionManager.getStyleNamesUserHasPermissionFor(pplayer), matches);
+                    }
+                    case "data" -> {
+                        ParticleEffect effect = pplayer.getActiveParticle(id).getEffect();
+                        if (effect.hasProperty(ParticleProperty.COLORABLE)) {
+                            List<String> possibleValues = new ArrayList<>();
+                            if (effect == ParticleEffect.NOTE) { // Note data
+                                if (args.length == 3) {
+                                    possibleValues.add("<0-24>");
+                                    possibleValues.add("rainbow");
+                                    possibleValues.add("random");
+                                }
+                            } else { // Color data
+                                if (args.length <= 3) {
+                                    possibleValues.add("<0-255> <0-255> <0-255>");
+                                    possibleValues.addAll(ParsableOrdinaryColor.getColorNameMap().keySet());
+                                    possibleValues.add("<#hexCode>");
+                                } else if (args.length <= 4 && !ParsableOrdinaryColor.getColorNameMap().containsKey(args[2].toLowerCase())) {
+                                    possibleValues.add("<0-255> <0-255>");
+                                } else if (args.length <= 5 && !ParsableOrdinaryColor.getColorNameMap().containsKey(args[2].toLowerCase())) {
+                                    possibleValues.add("<0-255>");
+                                }
                             }
-                        } else { // Color data
-                            if (args.length <= 3) {
-                                possibleValues.add("<0-255> <0-255> <0-255>");
-                                possibleValues.addAll(ParsableOrdinaryColor.getColorNameMap().keySet());
-                                possibleValues.add("<#hexCode>");
-                            } else if (args.length <= 4 && !ParsableOrdinaryColor.getColorNameMap().containsKey(args[2].toLowerCase())) {
-                                possibleValues.add("<0-255> <0-255>");
-                            } else if (args.length <= 5 && !ParsableOrdinaryColor.getColorNameMap().containsKey(args[2].toLowerCase())) {
-                                possibleValues.add("<0-255>");
+                            StringUtil.copyPartialMatches(args[args.length - 1], possibleValues, matches);
+                        } else if (args.length == 3 && effect.hasProperty(ParticleProperty.REQUIRES_MATERIAL_DATA)) {
+                            if (effect == ParticleEffect.BLOCK || effect == ParticleEffect.FALLING_DUST) { // Block material
+                                StringUtil.copyPartialMatches(args[2], ParticleUtils.BLOCK_MATERIALS_STRING, matches);
+                            } else if (effect == ParticleEffect.ITEM) { // Item material
+                                StringUtil.copyPartialMatches(args[2], ParticleUtils.ITEM_MATERIALS_STRING, matches);
                             }
-                        }
-                        StringUtil.copyPartialMatches(args[args.length - 1], possibleValues, matches);
-                    } else if (args.length == 3 && effect.hasProperty(ParticleProperty.REQUIRES_MATERIAL_DATA)) {
-                        if (effect == ParticleEffect.BLOCK || effect == ParticleEffect.FALLING_DUST) { // Block material
-                            StringUtil.copyPartialMatches(args[2], ParticleUtils.BLOCK_MATERIALS_STRING, matches);
-                        } else if (effect == ParticleEffect.ITEM) { // Item material
-                            StringUtil.copyPartialMatches(args[2], ParticleUtils.ITEM_MATERIALS_STRING, matches);
                         }
                     }
-                    break;
                 }
             }
         }
-        
+
         return matches;
     }
 
