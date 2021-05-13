@@ -155,8 +155,7 @@ public abstract class GuiInventory {
         for (GuiActionButton button : this.actionButtons) {
             if (button.getSlot() == slot) {
                 button.handleClick(isShiftClick);
-                if (Setting.GUI_BUTTON_SOUND.getBoolean() && event.getWhoClicked() instanceof Player) {
-                    Player player = (Player) event.getWhoClicked();
+                if (Setting.GUI_BUTTON_SOUND.getBoolean() && event.getWhoClicked() instanceof Player player) {
                     if (NMSUtil.getVersionNumber() > 8) {
                         player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1);
                     } else {

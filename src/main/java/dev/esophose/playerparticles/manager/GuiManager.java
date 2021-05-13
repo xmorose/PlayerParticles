@@ -55,10 +55,9 @@ public class GuiManager extends Manager implements Listener, Runnable {
     
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onInventoryClick(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player))
+        if (!(event.getWhoClicked() instanceof Player player))
             return;
 
-        Player player = (Player) event.getWhoClicked();
         GuiInventory inventory = this.getGuiInventory(player);
         if (inventory == null)
             return;
@@ -69,10 +68,9 @@ public class GuiManager extends Manager implements Listener, Runnable {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onInventoryClose(InventoryCloseEvent event) {
-        if (!(event.getPlayer() instanceof Player))
+        if (!(event.getPlayer() instanceof Player player))
             return;
 
-        Player player = (Player) event.getPlayer();
         GuiInventory inventory = this.getGuiInventory(player);
         if (inventory == null)
             return;

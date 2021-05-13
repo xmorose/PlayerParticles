@@ -80,10 +80,7 @@ public final class NoteColor extends ParticleColor {
 
     @Override
     public boolean equals(Object other) {
-        if (!(other instanceof NoteColor))
-            return false;
-        NoteColor otherColor = (NoteColor) other;
-        return this.note == otherColor.note;
+        return other instanceof NoteColor otherColor && this.note == otherColor.note;
     }
 
     @Override

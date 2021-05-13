@@ -121,8 +121,8 @@ public class DefaultStyles implements Listener {
      */
     public static void reloadSettings(ParticleStyleManager particleStyleManager) {
         for (ParticleStyle style : particleStyleManager.getStylesWithDisabled())
-            if (style instanceof DefaultParticleStyle)
-                ((DefaultParticleStyle) style).loadSettings(true);
+            if (style instanceof DefaultParticleStyle defaultParticleStyle)
+                defaultParticleStyle.loadSettings(true);
     }
 
 }

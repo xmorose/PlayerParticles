@@ -60,14 +60,13 @@ public class PPlayerCombatListener implements Listener {
             return;
 
         Player attacker;
-        if (event.getDamager() instanceof Projectile) {
-            Projectile projectile = (Projectile) event.getDamager();
-            if (!(projectile.getShooter() instanceof Player))
+        if (event.getDamager() instanceof Projectile projectile) {
+            if (!(projectile.getShooter() instanceof Player player))
                 return;
 
-            attacker = (Player) projectile.getShooter();
-        } else if (event.getDamager() instanceof Player) {
-            attacker = (Player) event.getDamager();
+            attacker = player;
+        } else if (event.getDamager() instanceof Player player) {
+            attacker = player;
         } else return;
 
         Player damaged = (Player) event.getEntity();

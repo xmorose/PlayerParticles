@@ -329,18 +329,18 @@ public enum ParticleEffect {
 
         if (effect.hasProperty(ParticleProperty.REQUIRES_MATERIAL_DATA)) {
             Material data;
-            if (pparticle.getOverrideData() instanceof Material) {
-                data = (Material) pparticle.getOverrideData();
+            if (pparticle.getOverrideData() instanceof Material material) {
+                data = material;
             } else {
                 data = particle.getSpawnMaterial();
             }
             effect.display(data, pparticle.getXOff(), pparticle.getYOff(), pparticle.getZOff(), pparticle.getSpeed(), 1, pparticle.getLocation(false), isLongRange, owner);
         } else if (effect.hasProperty(ParticleProperty.COLORABLE)) {
             ParticleColor data;
-            if (pparticle.getOverrideData() instanceof NoteColor && particle.getEffect() == ParticleEffect.NOTE) {
-                data = (NoteColor) pparticle.getOverrideData();
-            } else if (pparticle.getOverrideData() instanceof OrdinaryColor && particle.getEffect() != ParticleEffect.NOTE) {
-                data = (OrdinaryColor) pparticle.getOverrideData();
+            if (pparticle.getOverrideData() instanceof NoteColor noteColor && particle.getEffect() == ParticleEffect.NOTE) {
+                data = noteColor;
+            } else if (pparticle.getOverrideData() instanceof OrdinaryColor ordinaryColor && particle.getEffect() != ParticleEffect.NOTE) {
+                data = ordinaryColor;
             } else {
                 data = particle.getSpawnColor();
             }

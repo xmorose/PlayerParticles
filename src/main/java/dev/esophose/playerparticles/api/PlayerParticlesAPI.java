@@ -105,8 +105,8 @@ public final class PlayerParticlesAPI {
     public PPlayer getPPlayer(@NotNull CommandSender sender) {
         Objects.requireNonNull(sender);
 
-        if (sender instanceof Player) {
-            return this.getPPlayer((Player) sender);
+        if (sender instanceof Player player) {
+            return this.getPPlayer(player);
         } else if (sender instanceof ConsoleCommandSender) {
             return this.getConsolePPlayer();
         }

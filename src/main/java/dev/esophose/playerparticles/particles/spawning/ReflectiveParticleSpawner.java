@@ -136,7 +136,7 @@ public class ReflectiveParticleSpawner extends ParticleSpawner {
         public ParticlePacket(ParticleEffect effect, ParticleColor color, boolean longDistance) {
             this(effect, color.getValueX(), color.getValueY(), color.getValueZ(), 1, 0, longDistance, null);
 
-            if (effect == ParticleEffect.DUST && color instanceof OrdinaryColor && ((OrdinaryColor) color).getRed() == 0)
+            if (effect == ParticleEffect.DUST && color instanceof OrdinaryColor ordinaryColor && ordinaryColor.getRed() == 0)
                 this.offsetX = Float.MIN_NORMAL;
         }
 

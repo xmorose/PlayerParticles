@@ -49,8 +49,7 @@ public class ParticleStyleHurt extends DefaultParticleStyle implements Listener 
     public void onEntityDamage(EntityDamageEvent event) {
         ParticleManager particleManager = PlayerParticles.getInstance().getManager(ParticleManager.class);
 
-        if (event.getEntity() instanceof Player) {
-            Player player = (Player) event.getEntity();
+        if (event.getEntity() instanceof Player player) {
             PPlayer pplayer = PlayerParticles.getInstance().getManager(DataManager.class).getPPlayer(player.getUniqueId());
             if (pplayer != null) {
                 for (ParticlePair particle : pplayer.getActiveParticlesForStyle(DefaultStyles.HURT)) {

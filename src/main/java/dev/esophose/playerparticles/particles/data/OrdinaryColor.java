@@ -125,10 +125,10 @@ public final class OrdinaryColor extends ParticleColor {
 
     @Override
     public boolean equals(Object other) {
-        if (!(other instanceof OrdinaryColor))
-            return false;
-        OrdinaryColor otherColor = (OrdinaryColor) other;
-        return this.red == otherColor.red && this.green == otherColor.green && this.blue == otherColor.blue;
+        return other instanceof OrdinaryColor otherColor
+                && this.red == otherColor.red
+                && this.green == otherColor.green
+                && this.blue == otherColor.blue;
     }
 
     @Override

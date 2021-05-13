@@ -97,7 +97,7 @@ public abstract class DefaultParticleStyle implements ParticleStyle {
             return;
 
         String defaultMessage = "Default: ";
-        if (value instanceof String && ParticleUtils.containsConfigSpecialCharacters((String) value)) {
+        if (value instanceof String str && ParticleUtils.containsConfigSpecialCharacters(str)) {
             defaultMessage += "'" + value + "'";
         } else {
             defaultMessage += value;

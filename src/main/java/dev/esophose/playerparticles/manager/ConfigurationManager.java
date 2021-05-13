@@ -196,8 +196,8 @@ public class ConfigurationManager extends Manager {
                 List<String> comments = Stream.of(this.comments).collect(Collectors.toList());
                 if (!(this.defaultValue instanceof List) && this.defaultValue != null) {
                     String defaultComment = "Default: ";
-                    if (this.defaultValue instanceof String) {
-                        if (ParticleUtils.containsConfigSpecialCharacters((String) this.defaultValue)) {
+                    if (this.defaultValue instanceof String str) {
+                        if (ParticleUtils.containsConfigSpecialCharacters(str)) {
                             defaultComment += "'" + this.defaultValue + "'";
                         } else {
                             defaultComment += this.defaultValue;

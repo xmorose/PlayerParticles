@@ -465,8 +465,7 @@ public class PermissionManager extends Manager {
     }
 
     private PPlayer getUnderlyingExecutorAsPPlayer(PPlayer pplayer) {
-        if (pplayer instanceof OtherPPlayer) {
-            OtherPPlayer other = (OtherPPlayer) pplayer;
+        if (pplayer instanceof OtherPPlayer other) {
             CommandSender executor = other.getUnderlyingExecutor();
             if (this.isConsole(executor))
                 return null;

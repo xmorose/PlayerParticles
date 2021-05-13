@@ -73,9 +73,7 @@ public class ParticleStyleSwords extends DefaultParticleStyle implements Listene
     public void onEntityDamageEntity(EntityDamageByEntityEvent event) {
         ParticleManager particleManager = PlayerParticles.getInstance().getManager(ParticleManager.class);
 
-        if (event.getDamager() instanceof Player && event.getEntity() instanceof LivingEntity) {
-            Player player = (Player) event.getDamager();
-            LivingEntity entity = (LivingEntity) event.getEntity();
+        if (event.getDamager() instanceof Player player && event.getEntity() instanceof LivingEntity entity) {
             PPlayer pplayer = PlayerParticles.getInstance().getManager(DataManager.class).getPPlayer(player.getUniqueId());
             if (pplayer == null)
                 return;

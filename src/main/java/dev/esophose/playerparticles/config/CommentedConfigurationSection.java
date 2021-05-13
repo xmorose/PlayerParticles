@@ -48,12 +48,10 @@ public class CommentedConfigurationSection implements ConfigurationSection {
      */
     public Boolean getDefaultedBoolean(String path, Boolean def) {
         Object value = this.get(path);
-        if (value instanceof Boolean) {
-            return (Boolean) value;
-        } else if (value instanceof String) {
-            String stringValue = (String) value;
-            if (stringValue.equalsIgnoreCase("default"))
-                return null;
+        if (value instanceof Boolean bool) {
+            return bool;
+        } else if (value instanceof String str && str.equalsIgnoreCase("default")) {
+            return null;
         }
 
         if (value == null)

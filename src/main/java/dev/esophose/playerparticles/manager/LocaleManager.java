@@ -252,8 +252,8 @@ public class LocaleManager extends Manager {
      * @return A placeholder-replaced message
      */
     private String parsePlaceholders(CommandSender sender, String message) {
-        if (sender instanceof Player)
-            return PlaceholderAPIHook.applyPlaceholders((Player) sender, message);
+        if (sender instanceof Player player)
+            return PlaceholderAPIHook.applyPlaceholders(player, message);
         return message;
     }
 
