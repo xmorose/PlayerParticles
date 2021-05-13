@@ -1,9 +1,3 @@
-/*
- * TODO:
- * + Add ability to create/manage fixed effects from the GUI
- * * Convert fixed effect ids into names
- */
-
 package dev.esophose.playerparticles;
 
 import dev.esophose.playerparticles.gui.hook.PlayerChatHook;
@@ -24,7 +18,6 @@ import dev.esophose.playerparticles.manager.PermissionManager;
 import dev.esophose.playerparticles.manager.PluginUpdateManager;
 import dev.esophose.playerparticles.particles.listener.PPlayerCombatListener;
 import dev.esophose.playerparticles.particles.listener.PPlayerMovementListener;
-import dev.esophose.playerparticles.util.LegacyMetrics;
 import dev.esophose.playerparticles.util.NMSUtil;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -71,13 +64,8 @@ public class PlayerParticles extends JavaPlugin {
         pm.registerEvents(new PPlayerCombatListener(), this);
         pm.registerEvents(new PlayerChatHook(), this);
 
-        if (Setting.SEND_METRICS.getBoolean()) {
-            if (NMSUtil.getVersionNumber() > 7) {
-                new MetricsLite(this, 3531);
-            } else {
-                new LegacyMetrics(this);
-            }
-        }
+        if (Setting.SEND_METRICS.getBoolean() && NMSUtil.getVersionNumber() > 7)
+            new MetricsLite(this, 3531);
 
         if (PlaceholderAPIHook.enabled())
             new ParticlePlaceholderExpansion(this).register();

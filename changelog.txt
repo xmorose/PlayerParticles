@@ -1,7 +1,12 @@
+=== v7.20 ===
+* Java 16 or newer is now required
 === v7.19 ===
-+ Added the ability to toggle particles from the main GUI
-* Fixed fixed effects always getting deleted on join when the check-permissions-on-login setting is enabled
++ Added new style 'outline' which displays the player's hitbox or a block bounds if fixed
++ Added the ability to toggle particles by clicking the head icon in the main GUI
++ Added a setting to the config to display particles even when invisible
+* Fixed lag when unregistering and registering permissions on reload
 * The database connection and migrations are now established asynchronously
+* Fixed issue with fixed effects always getting deleted on join when the check-permissions-on-login setting is enabled
 === v7.18 ===
 + Added setting to check particle permissions on login
 + Added commands to directly open two more GUI pages '/gui <type>'
